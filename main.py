@@ -9,8 +9,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder
 
 # Assuming your data is in a directory with images and annotations folders
-data_dir = 'Bridge_Crack_Image/DBCC_Training_Data_Set/train'
-images_dir = os.path.join(data_dir)
+data_dir = 'NEU-DET/train'
+images_dir = os.path.join(data_dir, 'images')
 
 # Initialize empty lists to store data and labels
 data = []
@@ -65,33 +65,3 @@ if len(set(y)) > 1:
     print(classification_report(y_test, y_pred, target_names=label_encoder.classes_))
 else:
     print("Not enough samples to split the dataset.")
-
-
-# confusion matrix to see how well the model is performing on each defect type.
-from sklearn.metrics import confusion_matrix
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-# Confusion Matrix
-cm = confusion_matrix(y_test, y_pred)
-sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=label_encoder.classes_, yticklabels=label_encoder.classes_)
-plt.xlabel('Predicted')
-plt.ylabel('True')
-plt.title('Confusion Matrix')
-plt.show()
-
-
-
-
-
-# Assuming you have a new image to predict
-new_image_path = 'NEU-DET/train/images/patches/patches_4.jpg'
-new_image = Image.open(new_image_path)
-new_image_array = np.array(new_image).flatten()
-
-# Standardize the features (using the same scaler from the training set)
-new_image_array_standardized = scaler.transform(new_image_array.reshape(1, -1))
-
-# Make predictions
-new_prediction = rf_classifier.predict(new_image_array_standardized)
-print(f'Predicted defect type: {label_encoder.inverse_transform(new_prediction)}')
