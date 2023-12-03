@@ -9,7 +9,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
 
 # Load the trained model and label encoder from the training script
-from optimisedRF import pipeline, label_encoder
+from Naive_Bayes import pipeline, label_encoder
 
 def predict_defect_type(new_image_path):
     # Load and preprocess the new input data
@@ -28,6 +28,7 @@ def predict_defect_type(new_image_path):
     
 if __name__ == "__main__":
     # Example usage
-    new_image_path = 'inclusion_249.jpg'
+    new_image_path = 'crazing_242.jpg'
     predicted_defect_type = predict_defect_type(new_image_path)
     print(f'The predicted defect type is: {predicted_defect_type}')
+    
