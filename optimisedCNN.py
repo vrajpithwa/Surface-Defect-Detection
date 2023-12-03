@@ -16,7 +16,7 @@ data_dir = 'NEU-DET/train'
 # Set parameters
 input_shape = (224, 224, 3)  # Adjust dimensions based on your images
 batch_size = 32
-epochs = 20
+epochs = 10
 
 # Data augmentation and normalization
 datagen = ImageDataGenerator(
@@ -30,7 +30,7 @@ datagen = ImageDataGenerator(
 # Load and prepare the training dataset
 train_generator = datagen.flow_from_directory(
     data_dir,
-    target_size=(input_shape[0], input_shape[1]),
+    target_size =(input_shape[0], input_shape[1]),
     batch_size=batch_size,
     class_mode='categorical',
     subset='training'
