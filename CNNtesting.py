@@ -31,7 +31,7 @@ if __name__ == "__main__":
     model_path = 'CNN_SDD.h5'  # Replace with the actual path
 
     # Specify the path to the input image
-    input_image_path = 'testimage1(roll).jpg'  # Replace with the actual path
+    input_image_path = 'pitted_surface_242.jpg'  # Replace with the actual path
 
     # Load the trained model
     trained_model = load_trained_model(model_path)
