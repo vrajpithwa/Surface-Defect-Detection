@@ -1,3 +1,8 @@
 
 CNN_SDD.h5
 CNN_label_encoder.pkl
+*.pyc
+knn_model.joblib
+label_encoder.joblib
+NB_model.joblib
+RandomForest_model.joblib

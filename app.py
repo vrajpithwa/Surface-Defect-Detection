@@ -1,17 +1,13 @@
 from flask import Flask, render_template, request
-from PIL import Image
-import numpy as np
-from keras import models
 import joblib
+from knntesting import predict_defect_type
+from NBtesting import predict_defect_typeNB
+from RFtesting import predict_defect_typeRF
 from CNNtesting import load_trained_model, predict_defect
 
+
+import os
 app = Flask(__name__)
-
-# Load the trained model and label encoder
-model_path = 'CNN_SDD.h5'  # Replace with the actual path
-trained_model = load_trained_model(model_path)
-
-label_encoder = joblib.load('CNN_label_encoder.pkl')  # Replace with the actual path
 
 @app.route('/')
 def home():
@@ -20,18 +16,80 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     if request.method == 'POST':
-        # Get the uploaded file from the form
+        # Get input file from the form
         uploaded_file = request.files['file']
 
-        # Save the file to a temporary location
-        temp_path = 'temp.jpg'
-        uploaded_file.save(temp_path)
+        if uploaded_file.filename != '':
+            # Save the uploaded file
+            file_path = os.path.join('uploads', uploaded_file.filename)
+            uploaded_file.save(file_path)
 
-        # Make predictions using your model function
-        predicted_defect = predict_defect(temp_path, trained_model, label_encoder)
+            # Make a prediction using the model
+            predicted_defect_type = predict_defect_type(file_path)
+       
+            # Pass the result to the template
+            return render_template('result.html', result=predicted_defect_type)
 
-        # Pass the result to the template
-        return render_template('result.html', predicted_defect=predicted_defect)
+    # Handle the case where no file was uploaded or an error occurred
+    return render_template('error.html', message='Error in prediction')
+
+@app.route('/predict_naive_bayes', methods=['POST'])
+def predict_naive_bayes_route():
+    if request.method == 'POST':
+        uploaded_file = request.files['file']
+
+        if uploaded_file.filename != '':
+            file_path = os.path.join('uploads', uploaded_file.filename)
+            uploaded_file.save(file_path)
+
+            # Make a prediction using the Naive Bayes model
+            predicted_defect_type = predict_defect_typeNB(file_path)
+
+            return render_template('result.html', result=predicted_defect_type)
+
+    return render_template('error.html', message='Error in prediction')
+
+
+
+@app.route('/predict_random_forest', methods=['POST'])
+def predict_random_forest_route():
+    if request.method == 'POST':
+        uploaded_file = request.files['file']
+
+        if uploaded_file.filename != '':
+            file_path = os.path.join('uploads', uploaded_file.filename)
+            uploaded_file.save(file_path)
+
+            # Make a prediction using the RandomForest model
+            predicted_defect_type = predict_defect_typeRF(file_path)
+
+            return render_template('result.html', result=predicted_defect_type)
+
+    return render_template('error.html', message='Error in prediction')
+
+
+
+@app.route('/predict_cnn', methods=['POST'])
+def predict_cnn_route():
+    if request.method == 'POST':
+        uploaded_file = request.files['file']
+
+        if uploaded_file.filename != '':
+            file_path = os.path.join('uploads', uploaded_file.filename)
+            uploaded_file.save(file_path)
+
+            # Load the trained CNN model
+            trained_model = load_trained_model('CNN_SDD.h5')  # Replace with the actual path
+
+            # Load the label encoder with its classes
+            label_encoder = joblib.load('CNN_label_encoder.pkl')  # Replace with the actual path
+
+            # Make a prediction using the CNN model
+            predicted_defect_type = predict_defect(file_path, trained_model, label_encoder)
+
+            return render_template('result.html', result=predicted_defect_type)
+
+    return render_template('error.html', message='Error in prediction')
 
 if __name__ == '__main__':
     app.run(debug=True)

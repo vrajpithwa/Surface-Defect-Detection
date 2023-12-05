@@ -1,4 +1,5 @@
 import os
+import joblib
 import numpy as np
 from PIL import Image
 from sklearn.naive_bayes import GaussianNB
@@ -69,4 +70,7 @@ print(classification_report(y_test, y_pred, target_names=label_encoder.classes_)
 cv_scores = cross_val_score(pipeline, X, y_encoded, cv=StratifiedKFold(n_splits=5, shuffle=True, random_state=42))
 print(f'Cross-Validation Mean Accuracy: {np.mean(cv_scores)}')
 
+
+
+joblib.dump(pipeline, 'NB_model.joblib')
 

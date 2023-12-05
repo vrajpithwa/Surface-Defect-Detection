@@ -4,14 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Defect Prediction</title>
+        <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-size: larger;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        form {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        input[type="file"] {
+            margin-top: 10px;
+            /* display: none; */
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+    </style>
     <!-- You can include any additional stylesheets or scripts here -->
 </head>
-<body>
+<body style="background-color: black;">
+    <img src="../static/1.png" style="width: 100%; height: auto;">
+    <img src="../static/4.png" style="width: 100%; height: auto;">
+    <img src="../static/5.png" style="width: 100%; height: auto;">
+    <img src="../static/2.png" style="width: 100%; height: auto;">
+    <img src="../static/3.png" style="width: 100%; height: auto;">
+    <img src="../static/6.png" style="width: 100%; height: auto;">
+    
     <h1>Defect Prediction</h1>
     <p>Upload an image for defect prediction:</p>
 
     <form method="post" action="/predict" enctype="multipart/form-data">
-        <input type="file" name="file" accept="image/*" required>
+        <input type="file" name="file" accept="image/*" >
+        <button type="submit">Predict Defect</button>
+    </form>
+    
+    <img src="../static/51.png" style="width: 100%; height: auto;">
+    <img src="../static/61.png" style="width: 100%; height: auto;">
+    <h1>Do you want to check it !</h1>
+    <p></p>
+    <form method="post" action="/predict_naive_bayes" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" >
+        <button type="submit">Predict Defect</button>
+    </form>
+
+    <p>Random forest </p>
+    <img src="../static/8.png" style="width: 100%; height: auto;">
+    <img src="../static/9.png" style="width: 100%; height: auto;">
+    
+    <form method="post" action="/predict_random_forest" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" >
+        <button type="submit">Predict Defect</button>
+    </form>
+
+    <p>CNN</p>
+    <img src="../static/11.png" style="width: 100%; height: auto;">
+    <img src="../static/12.png" style="width: 100%; height: auto;">
+    
+    <form method="post" action="/predict_cnn" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" >
         <button type="submit">Predict Defect</button>
     </form>
 

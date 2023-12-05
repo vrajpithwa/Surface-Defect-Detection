@@ -1,17 +1,15 @@
 # new_predictor.py
 
 import os
+import joblib
 import numpy as np
 from PIL import Image
-from sklearn.preprocessing import LabelEncoder
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
-from sklearn.ensemble import RandomForestClassifier
 
 # Load the trained model and label encoder from the training script
-from optimisedRF import pipeline, label_encoder
+label_encoder = joblib.load('label_encoder.joblib')
+pipeline = joblib.load('RandomForest_model.joblib')
 
-def predict_defect_type(new_image_path):
+def predict_defect_typeRF(new_image_path):
     # Load and preprocess the new input data
     new_image_array = np.array(Image.open(new_image_path)).flatten()
 
@@ -29,5 +27,5 @@ def predict_defect_type(new_image_path):
 if __name__ == "__main__":
     # Example usage
     new_image_path = 'inclusion_249.jpg'
-    predicted_defect_type = predict_defect_type(new_image_path)
+    predicted_defect_type = predict_defect_typeRF(new_image_path)
     print(f'The predicted defect type is: {predicted_defect_type}')

@@ -1,4 +1,5 @@
 import os
+import joblib
 import numpy as np
 from PIL import Image
 from sklearn.model_selection import train_test_split
@@ -38,8 +39,13 @@ for defect_type in os.listdir(images_dir):
 X = np.array(data)
 y = np.array(labels)
 
+
+
+
 # Encode the labels
 y_encoded = label_encoder.fit_transform(y)
+
+joblib.dump(label_encoder, 'label_encoder.joblib')
 
 # Split the dataset into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.2, random_state=42, stratify=y_encoded)
@@ -62,8 +68,12 @@ print(f'Accuracy: {accuracy}')
 
 # Print additional metrics such as classification report
 print('Classification Report:')
-print(classification_report(y_test, y_pred, target_names=label_encoder.classes_))
+
+classification = classification_report(y_test, y_pred, target_names=label_encoder.classes_)
+print(classification)
 
 # Perform cross-validation
 cv_scores = cross_val_score(pipeline, X, y_encoded, cv=StratifiedKFold(n_splits=5, shuffle=True, random_state=42))
 print(f'Cross-Validation Mean Accuracy: {np.mean(cv_scores)}')
+
+joblib.dump(pipeline, 'knn_model.joblib')
