@@ -60,19 +60,13 @@ pipeline.fit(X_train, y_train)
 # Make predictions on the test set
 y_pred = pipeline.predict(X_test)
 
-# Evaluate the performance
+# Evaluate the performance (num of `/ pred / total )
 accuracy = accuracy_score(y_test, y_pred)
 print(f'Accuracy: {accuracy}')
 
-# Print additional metrics such as classification report
+# Print additional metrics such as classification report precision, recall, and F1-score
 print('Classification Report:')
 print(classification_report(y_test, y_pred, target_names=label_encoder.classes_))
-
-# Perform cross-validation
-cv_scores = cross_val_score(pipeline, X, y_encoded, cv=StratifiedKFold(n_splits=5, shuffle=True, random_state=42))
-print(f'Cross-Validation Mean Accuracy: {np.mean(cv_scores)}')
-
-
 
 joblib.dump(pipeline, 'RandomForest_model.joblib')
 

@@ -52,15 +52,16 @@ y_encoded = label_encoder.fit_transform(y)
 X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.2, random_state=42, stratify=y_encoded)
 
 # Create a simple CNN model
-model = models.Sequential()
-model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(224, 224, 3)))  # Adjust input shape based on your resized images
-model.add(layers.MaxPooling2D((2, 2)))
+model = models.Sequential()#stacking layers in seq  (convo, max pooling , convo, fully conn)
+model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(224, 224, 3))) 
+ # 32 = no. of filter/op chann, 3,3 is siz of filter
+model.add(layers.MaxPooling2D((2, 2))) # 2,2 filter size 
 model.add(layers.Conv2D(64, (3, 3), activation='relu'))
 model.add(layers.MaxPooling2D((2, 2)))
 model.add(layers.Conv2D(128, (3, 3), activation='relu'))
 model.add(layers.MaxPooling2D((2, 2)))
 model.add(layers.Flatten())
-model.add(layers.Dense(128, activation='relu'))
+model.add(layers.Dense(128, activation='relu')) #128 no. of neurons per lay
 model.add(layers.Dense(len(label_encoder.classes_), activation='softmax'))
 
 
